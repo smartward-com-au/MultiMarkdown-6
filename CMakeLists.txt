@@ -49,7 +49,7 @@ include_directories(${PROJECT_BINARY_DIR})
 if ("${CMAKE_CXX_COMPILER_ID}" MATCHES "Clang")
 	# using Clang
 	# Default is 256 -- needed for localization hash function
-	add_definitions("-fbracket-depth=264")	
+	add_definitions("-fbracket-depth=264")
 endif()
 
 set(CMAKE_SUPPRESS_REGENERATION 1)
@@ -60,12 +60,12 @@ set(CMAKE_SUPPRESS_REGENERATION 1)
 # =================
 
 MACRO(ADD_PUBLIC_HEADER target filename)
-	# Add filename to public_header_files list, flag it as 
+	# Add filename to public_header_files list, flag it as
 	# public header for libraries and OS X Frameworks
 
 	# This will work for creating one library/framework with public headers
 	# per project. If you need more than one, you will need to customize
-	# the workflow as appropriate, since there is only one 
+	# the workflow as appropriate, since there is only one
 	# public_header_files list.
 
 	# This should only be run once per target
@@ -97,9 +97,9 @@ MACRO(ADD_PUBLIC_HEADER target filename)
 		XCODE_ATTRIBUTE_PRIVATE_HEADERS_FOLDER_PATH
 		"$(PUBLIC_HEADERS_FOLDER_PATH)/Private"
 	)
-	
+
 	# Set Xcode target to include settings for OS X and iOS
-	
+
 	SET_TARGET_PROPERTIES(${target} PROPERTIES
 		XCODE_ATTRIBUTE_SUPPORTED_PLATFORMS
 		"macosx iphonesimulator iphoneos"
@@ -442,7 +442,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 	#
 	# You may wish to disable this.
 	#
-	
+
 	# set (CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 	# set (BUILD_SHARED_LIBRARIES OFF)
 	# set (CMAKE_EXE_LINKER_FLAGS "-static")
@@ -463,11 +463,11 @@ endif (WIN32)
 if (NOT DEFINED TEST)
 	find_package(CURL)
 	if (CURL_FOUND)
-		add_definitions(-DUSE_CURL)
-		message (STATUS "libcurl found")
+#		add_definitions(-DUSE_CURL)
+		message (STATUS "libcurl found - ignoring it anyway because it won't link")
 	else ()
 		message (STATUS "libcurl not found")
-	endif (CURL_FOUND)	
+	endif (CURL_FOUND)
 endif ()
 
 # Create a library?
@@ -488,9 +488,9 @@ else ()
 	)
 endif ()
 
-if (CURL_FOUND) 
+if (CURL_FOUND)
 	target_link_libraries(libMultiMarkdown curl)
-endif (CURL_FOUND)	
+endif (CURL_FOUND)
 
 # Create a shared library if defined
 if (DEFINED SHAREDBUILD)
@@ -511,9 +511,9 @@ if (DEFINED SHAREDBUILD)
 	# Remove "Shared" from library name
 	SET_TARGET_PROPERTIES(libMultiMarkdownShared PROPERTIES OUTPUT_NAME libMultiMarkdown)
 
-	if (CURL_FOUND) 
+	if (CURL_FOUND)
 		target_link_libraries(libMultiMarkdown ${CURL_LIBRARY})
-	endif (CURL_FOUND)	
+	endif (CURL_FOUND)
 
 endif (DEFINED SHAREDBUILD)
 
@@ -537,7 +537,7 @@ ADD_PUBLIC_HEADER(libMultiMarkdown Sources/libMultiMarkdown/include/version.h)
 		Sources/multimarkdown/main.c
 		Sources/multimarkdown/argtable3.c
 	)
-# 
+#
 #	Link the library to the app?
 	target_link_libraries(multimarkdown libMultiMarkdown)
 # endif()
@@ -564,7 +564,7 @@ set_property(TARGET multimarkdown PROPERTY C_STANDARD 11)
 # Use something like this to install public header files (after adding them
 # with the ADD_PUBLIC_HEADER() macro)
 
-# install (FILES ${public_header_files} DESTINATION local/include/libFoo) 
+# install (FILES ${public_header_files} DESTINATION local/include/libFoo)
 
 # Install MMD binary
 install (TARGETS multimarkdown
@@ -690,7 +690,7 @@ ADD_MMD_TEST(mmd-6-critic-reject "-r" CriticMarkup htmlr)
 # But it's useful to run manually at times to verify that
 # round-tripping through OPML generally works
 
-# add_test ( mmd-6-opml-parse 
+# add_test ( mmd-6-opml-parse
 # 		${PROJECT_SOURCE_DIR}/tests/MarkdownTest.pl
 # 		--Script="${CMAKE_CURRENT_BINARY_DIR}/multimarkdown"
 # 		--testdir=${PROJECT_SOURCE_DIR}/tests/MMD6Tests
