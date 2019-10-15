@@ -25,8 +25,9 @@ RUN fpm \
   -t deb \
   -n multimarkdown \
   -v 6.4.0 \
+  --after-install ldconfig.sh \
   -p multimarkdown_VERSION_ARCH.deb \
-  Sources/libMultiMarkdown/include=/usr/include/ \
+  Sources/libMultiMarkdown/include/=/usr/include/ \
   libMultiMarkdown.so=/usr/lib/
 
 #   -d "libstdc++6 >= 4.4.3" \
